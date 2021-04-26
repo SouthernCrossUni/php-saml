@@ -31,6 +31,8 @@ if (isset($_GET['sso'])) {
     $nameId = null;
     $sessionIndex = null;
     $nameIdFormat = null;
+    $samlNameIdNameQualifier = null;
+    $samlNameIdSPNameQualifier = null;
 
     if (isset($_SESSION['samlNameId'])) {
         $nameId = $_SESSION['samlNameId'];
@@ -71,6 +73,9 @@ if (isset($_GET['sso'])) {
 
     if (!empty($errors)) {
         echo '<p>',implode(', ', $errors),'</p>';
+        if ($auth->getSettings()->isDebugActive()) {
+            echo '<p>'.$auth->getLastErrorReason().'</p>';
+        }
     }
 
     if (!$auth->isAuthenticated()) {
@@ -101,6 +106,9 @@ if (isset($_GET['sso'])) {
         echo '<p>Sucessfully logged out</p>';
     } else {
         echo '<p>', implode(', ', $errors), '</p>';
+        if ($auth->getSettings()->isDebugActive()) {
+            echo '<p>'.$auth->getLastErrorReason().'</p>';
+        }
     }
 }
 
